@@ -1,0 +1,12 @@
+{
+  "name": "edenai",
+  "owner": { "name": "Eden AI", "url": "https://www.edenai.co" },
+  "metadata": { "description": "Eden AI plugins for Claude Code" },
+  "plugins": [
+    {
+      "name": "eden-ai",
+      "source": "./",
+      "description": "Skills to use Eden AI's LLM gateway, EU endpoint, expert models, cost tracking and hosted MCP server."
+    }
+  ]
+}

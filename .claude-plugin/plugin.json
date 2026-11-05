@@ -1,0 +1,10 @@
+{
+  "name": "eden-ai",
+  "version": "1.0.0",
+  "description": "Eden AI for coding agents: call ~1,000 LLMs and expert models (OCR, speech, translation, web search, image, video) through one OpenAI-compatible API, keep processing in the EU, track costs, and use Eden AI's hosted MCP server.",
+  "author": { "name": "Eden AI", "url": "https://www.edenai.co" },
+  "homepage": "https://www.edenai.co",
+  "repository": "https://github.com/edenai/agent-skills",
+  "license": "MIT",
+  "keywords": ["llm", "ai-gateway", "openai-compatible", "mcp", "ocr", "speech-to-text", "eu", "gdpr", "finops"]
+}

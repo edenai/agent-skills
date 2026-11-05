@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "edenai": {
+      "type": "http",
+      "url": "https://mcp.edenai.run/mcp",
+      "headers": { "Authorization": "Bearer ${EDENAI_API_KEY}" }
+    }
+  }
+}
