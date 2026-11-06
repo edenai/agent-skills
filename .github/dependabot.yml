@@ -1,0 +1,11 @@
+# Only github-actions: there is no package manifest in this repo.
+# cooldown holds a new action release for 7 days (version updates only,
+# never security updates).
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 7

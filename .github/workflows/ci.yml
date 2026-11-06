@@ -1,0 +1,49 @@
+name: ci
+
+# Checks run on every pull request and on main. The repo is only Markdown and
+# JSON, so they make sure the plugin still loads: the manifests parse, and every
+# skill has the frontmatter Claude Code needs to discover it. No secrets used.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      # Pinned to a full commit SHA, not a tag. Dependabot bumps it.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - name: Validate committed JSON
+        run: |
+          git ls-files '*.json' | while read -r f; do
+            python3 -c 'import json,sys; json.load(open(sys.argv[1]))' "$f" \
+              || { echo "::error file=$f::invalid JSON"; exit 1; }
+          done
+
+      - name: Check skill frontmatter
+        # Each skills/<dir>/SKILL.md needs a name equal to <dir> and a description.
+        run: |
+          python3 - <<'PY'
+          import pathlib, re, sys
+          bad = False
+          skills = sorted(pathlib.Path("skills").glob("*/SKILL.md"))
+          if not skills:
+              print("::error::no skills/*/SKILL.md found")
+              sys.exit(1)
+          for p in skills:
+              m = re.match(r"---\n(.*?)\n---\n", p.read_text(), re.S)
+              fields = dict(re.findall(r"^(\w+):\s*(.+)$", m.group(1), re.M)) if m else {}
+              if fields.get("name") != p.parent.name:
+                  print(f"::error file={p}::name must be '{p.parent.name}'")
+                  bad = True
+              if not fields.get("description"):
+                  print(f"::error file={p}::missing description")
+                  bad = True
+          sys.exit(bad)
+          PY
